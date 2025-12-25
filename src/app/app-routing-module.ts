@@ -39,10 +39,6 @@ const routes: Routes = [
   { path: 'admin-cards', component: AdminAddCard, canActivate: [AdminGuard] },
   { path: 'contact', component: Contact},
   {path: 'qrcode', component: Qrcode},
-
-
-
-  // 👇 WILDCARD MUST ALWAYS BE LAST
   { path: '**', redirectTo: '' }
 ];
 

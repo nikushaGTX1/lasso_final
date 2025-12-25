@@ -8,12 +8,13 @@
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
+/* ---------------- IMAGE ---------------- */
 .qr-image-wrap{
   margin-bottom: 22px;
 }
 
 .qr-image{
-  max-width: 260px;
+  max-width: min(260px, 90vw);
   width: 100%;
   border-radius: 18px;
   object-fit: cover;
@@ -21,66 +22,69 @@
   border: 3px solid #dde6d2;
 }
 
-/* ბარათი */
+/* ---------------- CARD ---------------- */
 .qr-card{
-  max-width: 640px;
+  max-width: 650px;
   width: 100%;
   background: #ffffff;
-  border-radius: 22px;
-  padding: 28px 26px 38px;
+  border-radius: 24px;
+  padding: clamp(18px, 3vw, 40px);
   box-shadow: 0 26px 55px rgba(0,0,0,0.14);
   border: 1px solid #e3e6e3;
   text-align: center;
 }
 
-/* Badge */
-/* Badge */
+/* ---------------- BADGE ---------------- */
 .qr-badge{
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 18px;
+  gap: clamp(8px, 2vw, 14px);
+  padding: clamp(8px, 2vw, 14px) clamp(12px, 3vw, 24px);
   border-radius: 999px;
   background: #ecfdf3;
   color: #166534;
-  font-size: 32px;
+  font-size: clamp(16px, 3vw, 28px);
   font-weight: 800;
-  margin-bottom: 14px;
-  white-space: nowrap; 
+  margin-bottom: clamp(10px, 2vw, 18px);
+  white-space: nowrap;
 }
 
 .qr-badge .check{
-  width: 54px;  
-  height: 54px;
+  width: clamp(38px, 6vw, 58px);
+  height: clamp(38px, 6vw, 58px);
   border-radius: 50%;
   background: #22c55e;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 48px;
+  font-size: clamp(22px, 4vw, 42px);
 }
 
+.badge-text{
+  display: block;
+}
 
+/* ---------------- TEXT ---------------- */
 .qr-card h2{
-  font-size: 22px;
+  font-size: clamp(18px, 3.5vw, 26px);
   color: #111827;
-  margin-bottom: 12px;
+  margin-bottom: clamp(8px, 1.5vw, 14px);
 }
 
 .qr-text{
-  font-size: 15px;
+  font-size: clamp(14px, 2.8vw, 17px);
   color: #4b5563;
   line-height: 1.9;
   margin-bottom: 10px;
 }
 
-/* Contact */
+/* ---------------- CONTACT ---------------- */
 .qr-contact{
   margin-top: 18px;
   padding-top: 16px;
   border-top: 1px dashed #c9d3c1;
-  font-size: 15px;
+  font-size: clamp(13px, 2.8vw, 16px);
   color: #374151;
 }
 
@@ -88,7 +92,7 @@
   margin: 4px 0;
 }
 
-/* FACEBOOK BUTTON */
+/* ---------------- FACEBOOK BUTTON ---------------- */
 .fb-btn{
   display: inline-flex;
   align-items: center;
@@ -99,9 +103,9 @@
   color: white;
   text-decoration: none;
   font-weight: 800;
-  padding: 12px 22px;
+  padding: clamp(10px, 2.5vw, 14px) clamp(16px, 4vw, 26px);
   border-radius: 12px;
-  font-size: 15px;
+  font-size: clamp(13px, 2.6vw, 16px);
   transition: .25s;
 }
 
@@ -111,45 +115,26 @@
 }
 
 .fb-btn i{
-  font-size: 18px;
+  font-size: clamp(16px, 3vw, 20px);
 }
 
-/* -------------------
-      RESPONSIVE
-------------------- */
+/* ===================================================
+      RESPONSIVE BREAKPOINTS REFINEMENTS
+================================================== */
+
 @media(max-width: 900px){
   .qr-card{
-    max-width: 90%;
+    max-width: 92%;
   }
 }
 
 @media(max-width: 600px){
-
   .qr-result{
-    padding: 28px 12px 60px;
-  }
-
-  .qr-image{
-    max-width: 210px;
+    padding: 24px 12px 55px;
   }
 
   .qr-card{
-    padding: 22px 18px 30px;
     border-radius: 18px;
-  }
-
-  .qr-card h2{
-    font-size: 18px;
-  }
-
-  .qr-text,
-  .qr-contact,
-  .fb-btn{
-    font-size: 14px;
-  }
-
-  .fb-btn{
-    padding: 11px 18px;
-    border-radius: 10px;
+    box-shadow: 0 18px 35px rgba(0,0,0,0.12);
   }
 }
