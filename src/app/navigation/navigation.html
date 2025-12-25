@@ -14,7 +14,7 @@
       <li routerLink="/">{{ lang.t('home') }}</li>
       <li routerLink="/products">{{ lang.t('products') }}</li>
       <li routerLink="/about-us">{{ lang.t('about') }}</li>
-      <li>{{ lang.t('contact') }}</li>
+      <li routerLink="/contact">{{ lang.t('contact') }}</li>
 
       <li *ngIf="isAdmin" routerLink="/admin-cards" class="admin-link">
         {{ lang.t('admin') }}
