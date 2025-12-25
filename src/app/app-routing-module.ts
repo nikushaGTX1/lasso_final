@@ -13,6 +13,7 @@ import { Admin } from './admin/admin';
 import { AdminAddCard } from './admin-add-card/admin-add-card';
 import { AdminGuard } from './guards/admin.guard';
 import { Contact } from './contact/contact';
+import { Qrcode } from './qrcode/qrcode';
 
 const routes: Routes = [
   { path: '', component: Main },
@@ -37,6 +38,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminAddCard, canActivate: [AuthGuard] },
   { path: 'admin-cards', component: AdminAddCard, canActivate: [AdminGuard] },
   { path: 'contact', component: Contact},
+  {path: 'qrcode', component: Qrcode},
 
 
 

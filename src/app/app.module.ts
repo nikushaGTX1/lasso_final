@@ -16,6 +16,7 @@ import { AdminAddCard } from './admin-add-card/admin-add-card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Contact } from './contact/contact';
+import { Qrcode } from './qrcode/qrcode';
 
 
 
@@ -32,7 +33,8 @@ import { Contact } from './contact/contact';
     Login,
     Register,
     AdminAddCard,
-    Contact
+    Contact,
+    Qrcode
   ],
   imports: [
     BrowserModule,
