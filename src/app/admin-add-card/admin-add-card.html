@@ -184,25 +184,32 @@
 
   <hr>
 
-  <!-- ================= GRID IMAGES ================= -->
-  <h3>Change Home Grid Images</h3>
+<h3>Change Home Grid Images</h3>
 
-  <div class="grid-admin">
+<div class="grid-admin">
 
-    <div class="grid-box" *ngFor="let slot of [1,2,3,4]">
+  <div class="grid-box" *ngFor="let n of [1,2,3,4,5,6,7]">
 
-      <h4>Grid Slot {{slot}}</h4>
+    <h4>Grid Slot {{n}}</h4>
 
-      <img *ngIf="grids[slot]" [src]="grids[slot]" class="grid-preview">
+    <img *ngIf="grids['grid'+n]" [src]="grids['grid'+n]" class="grid-preview">
 
-      <p *ngIf="grids[slot]" class="grid-url">
-        {{ grids[slot] }}
-      </p>
+    <p *ngIf="grids['grid'+n]" class="grid-url">
+      {{ grids['grid'+n] }}
+    </p>
 
-      <input type="file" (change)="uploadGrid(slot, $any($event.target).files[0])" />
-      
-    </div>
+    <input type="file" (change)="uploadGrid(n, $any($event.target).files[0])" />
+
+    <button
+      *ngIf="grids['grid'+n]"
+      class="btn-delete"
+      (click)="deleteGrid(n)">
+      Delete Grid
+    </button>
 
   </div>
 
 </div>
+
+
+

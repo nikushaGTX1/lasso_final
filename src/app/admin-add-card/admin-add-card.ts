@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreamsService } from '../services/creams.service';
-import { VitaminsService } from '../services/vitamins.service';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { LangService } from '../services/lang.service';
@@ -26,13 +25,15 @@ export class AdminAddCard implements OnInit, OnDestroy {
   currentBanner = '';
 
   grids: any = {
-    1: '',
-    2: '',
-    3: '',
-    4: ''
+    grid1: '',
+    grid2: '',
+    grid3: '',
+    grid4: '',
+    grid5: '',
+    grid6: '',
+    grid7: ''
   };
-  
-  // ================= ABOUT TEXTS =================
+
   about: any = {
     About_HeroTitle: '',
     About_HeroText: '',
@@ -49,9 +50,8 @@ export class AdminAddCard implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private creamsService: CreamsService,
-    private vitaminsService: VitaminsService,
     private cdr: ChangeDetectorRef,
-    public lang: LangService     // ✅ inject Language Service
+    public lang: LangService
   ) {
     this.cardForm = this.fb.group({
       id: [''],
@@ -74,9 +74,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
     if (this.sub) this.sub.unsubscribe();
   }
 
-  /* =======================================
-        PRODUCTS
-  ======================================= */
+  // ================= PRODUCTS =================
   loadCreams() {
     this.sub = this.creamsService.getAll().subscribe(res => {
       this.creams = res || [];
@@ -95,14 +93,6 @@ export class AdminAddCard implements OnInit, OnDestroy {
 
   submit() {
     const value = this.cardForm.value as any;
-
-    if (value.category === 'main') {
-      if (this.editingCard)
-        this.vitaminsService.editVitamin(value).subscribe(() => this.afterSave());
-      else
-        this.vitaminsService.addVitamin(value).subscribe(() => this.afterSave());
-      return;
-    }
 
     if (this.editingCard) {
       this.creamsService.editCream(value).subscribe(() => this.afterSave());
@@ -155,9 +145,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
     this.cardForm.reset({ category: 'Creams', price: 0 });
   }
 
-  /* =======================================
-        ABOUT TEXTS
-  ======================================= */
+  // ================= ABOUT TEXTS =================
   loadTexts() {
     fetch('https://webapplication1-2jq8.onrender.com/api/Api/about-texts')
       .then(r => r.json())
@@ -183,14 +171,12 @@ export class AdminAddCard implements OnInit, OnDestroy {
           showConfirmButton: false
         });
       })
-      .catch(() => {
-        Swal.fire({ icon: 'error', title: 'Failed to save texts' });
-      });
+      .catch(() =>
+        Swal.fire({ icon: 'error', title: 'Failed to save texts' })
+      );
   }
 
-  /* =======================================
-        BANNER
-  ======================================= */
+  // ================= BANNER =================
   loadBanner() {
     fetch('https://webapplication1-2jq8.onrender.com/api/Api/banner')
       .then(r => r.json())
@@ -225,23 +211,17 @@ export class AdminAddCard implements OnInit, OnDestroy {
       .catch(() => Swal.fire({ icon: 'error', title: 'Upload Failed!' }));
   }
 
-  /* =======================================
-        GRID
-  ======================================= */
+  // ================= GRID =================
   loadGrids() {
     fetch('https://webapplication1-2jq8.onrender.com/api/Api/grid')
       .then(r => r.json())
       .then(r => {
-        this.grids[1] = r.grid1 || '';
-        this.grids[2] = r.grid2 || '';
-        this.grids[3] = r.grid3 || '';
-        this.grids[4] = r.grid4 || '';
-
+        this.grids = r || {};
         this.cdr.detectChanges();
       });
   }
 
-  uploadGrid(slot: number, file: File) {
+  uploadGrid(slot: number, file: File | undefined) {
     if (!file) return;
 
     const formData = new FormData();
@@ -253,7 +233,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
     })
       .then(r => r.json())
       .then(r => {
-        this.grids[slot] = r.url;
+        this.grids[`grid${slot}`] = r.url;
         this.cdr.detectChanges();
 
         Swal.fire({
@@ -264,6 +244,26 @@ export class AdminAddCard implements OnInit, OnDestroy {
         });
       })
       .catch(() => Swal.fire({ icon: 'error', title: 'Upload Failed!' }));
+  }
+
+  deleteGrid(slot: number) {
+    fetch(`https://webapplication1-2jq8.onrender.com/api/Api/grid/${slot}`, {
+      method: 'DELETE'
+    })
+      .then(() => {
+        this.grids[`grid${slot}`] = '';
+        this.cdr.detectChanges();
+
+        Swal.fire({
+          icon: 'success',
+          title: `Grid ${slot} deleted`,
+          timer: 900,
+          showConfirmButton: false
+        });
+      })
+      .catch(() =>
+        Swal.fire({ icon: 'error', title: 'Delete Failed!' })
+      );
   }
 
 }

@@ -10,31 +10,24 @@
   <!-- PRODUCTS -->
   <div class="products-grid" *ngIf="!loading">
 
-    <div
-      class="product-card"
-      *ngFor="let cream of paginatedProducts"
-      [routerLink]="['/product', cream.id]"
-      role="button">
+  <div
+    class="product-card"
+    *ngFor="let cream of paginatedProducts"
+    [routerLink]="['/product', cream.id]"
+    role="button">
 
-      <div class="img-box">
-        <img [src]="cream.image" alt="{{cream.name}}">
-      </div>
-
-      <h3 class="prod-name">
-        {{ cream.name }}
-      </h3>
-
-      <div class="bottom">
-        <span class="price">{{ cream.price }} ₾</span>
-
-        <button class="buy-btn" (click)="$event.stopPropagation()">
-          Buy Now
-        </button>
-      </div>
-
+    <div class="img-box">
+      <img [src]="cream.image" alt="{{cream.name}}">
     </div>
 
+    <h3 class="prod-name">
+      {{ cream.name }}
+    </h3>
+
   </div>
+
+</div>
+
 
   <!-- PAGINATION -->
   <div class="pagination" *ngIf="totalPages > 1">

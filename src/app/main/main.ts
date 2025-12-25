@@ -18,6 +18,9 @@ export class Main implements OnInit {
   grid2: string = '';
   grid3: string = '';
   grid4: string = '';
+  grid5: string = '';
+  grid6: string = '';
+  grid7: string = '';
 
   constructor(
     private http: HttpClient,
@@ -42,7 +45,7 @@ export class Main implements OnInit {
 
 
     // ======================
-    // LOAD GRID IMAGES
+    // LOAD GRID IMAGES (1–7)
     // ======================
     this.http.get<any>('https://webapplication1-2jq8.onrender.com/api/Api/grid')
       .subscribe({
@@ -53,6 +56,9 @@ export class Main implements OnInit {
           this.grid2 = res?.grid2 || '';
           this.grid3 = res?.grid3 || '';
           this.grid4 = res?.grid4 || '';
+          this.grid5 = res?.grid5 || '';
+          this.grid6 = res?.grid6 || '';
+          this.grid7 = res?.grid7 || '';
 
           this.cdr.detectChanges();
         },
