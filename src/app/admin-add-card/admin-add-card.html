@@ -1,0 +1,208 @@
+<div class="admin-wrapper">
+
+  <!-- HEADER -->
+  <div class="admin-header">
+    <h1>{{ lang.t('adminPanelTitle') }}</h1>
+  </div>
+
+  <!-- ================= ADD / EDIT PRODUCT ================= -->
+  <h2>
+    {{ editingCard ? lang.t('adminEditCardTitle') : lang.t('adminAddCardTitle') }}
+  </h2>
+
+  <form [formGroup]="cardForm" (ngSubmit)="submit()" class="card-form">
+    <input formControlName="id" type="hidden" />
+
+    <label>Name</label>
+    <input formControlName="name" placeholder="Enter product name" required />
+
+    <label>Description</label>
+    <textarea formControlName="description" placeholder="Enter description"></textarea>
+
+    <label>Image URL</label>
+    <input formControlName="image" placeholder="https://example.com/image.jpg" />
+
+    <label>Price</label>
+    <input type="number" formControlName="price" placeholder="0.00" required />
+
+    <label>Category</label>
+    <select formControlName="category">
+      <option value="Creams">Creams</option>
+    </select>
+
+    <div class="form-buttons">
+      <button type="submit" class="btn-submit">
+        <i class="fa-solid" [ngClass]="editingCard ? 'fa-pen-to-square' : 'fa-plus'"></i>
+        {{ editingCard ? lang.t('adminEditCardTitle') : lang.t('adminAddCardTitle') }}
+      </button>
+
+      <button type="button" class="btn-cancel" (click)="resetForm()" *ngIf="editingCard">
+        <i class="fa-solid fa-xmark"></i>
+        Cancel
+      </button>
+    </div>
+  </form>
+
+  <hr>
+
+  <!-- ================= EXISTING CARDS ================= -->
+  <h3>{{ lang.t('adminExistingCards') }}</h3>
+
+  <div class="cards-list">
+    <div class="card-item" *ngFor="let card of pagedCreams">
+
+      <img *ngIf="card.image" [src]="card.image" alt="{{card.name}}" class="card-img">
+
+      <div class="card-info">
+        <span class="card-name">{{ card.name }}</span>
+        <span class="card-category">{{ card.category }}</span>
+
+        <span class="card-price">
+          <i class="fa-solid fa-dollar-sign"></i>
+          {{ card.price | currency }}
+        </span>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-edit" (click)="editCard(card)">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+
+        <button class="btn-delete" (click)="deleteCard(card)">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="pagination" *ngIf="creams.length > pageSize">
+
+    <button [disabled]="page === 1" (click)="page = page - 1">
+      {{ lang.t('adminPrevious') }}
+    </button>
+
+    <span>Page {{ page }} / {{ totalPages }}</span>
+
+    <button
+      [disabled]="page >= creams.length / pageSize"
+      (click)="page = page + 1">
+      {{ lang.t('adminNext') }}
+    </button>
+
+  </div>
+
+  <hr>
+
+  <!-- ================= ABOUT PAGE TEXTS ================= -->
+  <h3>{{ lang.t('adminAboutSection') }}</h3>
+
+  <div class="about-box">
+    <div class="about-grid">
+
+      <div class="about-field">
+        <label>{{ lang.t('adminHeroTitle') }}</label>
+        <input [(ngModel)]="about.About_HeroTitle" class="about-input">
+      </div>
+
+      <div class="about-field">
+        <label>{{ lang.t('adminHeroText') }}</label>
+        <textarea [(ngModel)]="about.About_HeroText" class="about-input about-textarea"></textarea>
+      </div>
+
+      <div class="about-field">
+        <label>{{ lang.t('adminWhoTitle') }}</label>
+        <input [(ngModel)]="about.About_Who" class="about-input">
+      </div>
+
+      <div class="about-field">
+        <label>{{ lang.t('adminWhoText') }}</label>
+        <textarea [(ngModel)]="about.About_WhoText" class="about-input about-textarea"></textarea>
+      </div>
+
+      <div class="about-field">
+        <label>{{ lang.t('adminPhilosophyTitle') }}</label>
+        <input [(ngModel)]="about.About_Philosophy" class="about-input">
+      </div>
+
+      <div class="about-field">
+        <label>{{ lang.t('adminPhilosophyText') }}</label>
+        <textarea [(ngModel)]="about.About_PhilosophyText" class="about-input about-textarea"></textarea>
+      </div>
+
+      <div class="about-field">
+        <label>{{ lang.t('adminMissionTitle') }}</label>
+        <input [(ngModel)]="about.About_Mission" class="about-input">
+      </div>
+
+      <div class="about-field">
+        <label>{{ lang.t('adminMissionText') }}</label>
+        <textarea [(ngModel)]="about.About_MissionText" class="about-input about-textarea"></textarea>
+      </div>
+
+      <div class="about-field">
+        <label>{{ lang.t('adminTrustTitle') }}</label>
+        <input [(ngModel)]="about.About_Trust" class="about-input">
+      </div>
+
+      <div class="about-field">
+        <label>{{ lang.t('adminExploreBtnText') }}</label>
+        <input [(ngModel)]="about.About_ExploreBtn" class="about-input">
+      </div>
+
+    </div>
+
+    <button class="btn-submit" (click)="saveTexts()">
+      {{ lang.t('adminSaveAboutTexts') }}
+    </button>
+  </div>
+
+  <hr>
+
+  <!-- ================= BANNER ================= -->
+  <h3>Change Main Banner</h3>
+
+  <div class="banner-box">
+
+    <div class="banner-preview" *ngIf="currentBanner">
+      <img [src]="currentBanner">
+    </div>
+
+    <p *ngIf="currentBanner">
+      Current Banner URL:
+      <span class="banner-url">{{ currentBanner }}</span>
+    </p>
+
+    <input type="file" #bannerFile>
+
+    <button (click)="uploadBanner(bannerFile.files?.[0])" class="btn-submit">
+      Upload New Banner
+    </button>
+
+  </div>
+
+  <hr>
+
+  <!-- ================= GRID IMAGES ================= -->
+  <h3>Change Home Grid Images</h3>
+
+  <div class="grid-admin">
+
+    <div class="grid-box" *ngFor="let slot of [1,2,3,4]">
+
+      <h4>Grid Slot {{slot}}</h4>
+
+      <img *ngIf="grids[slot]" [src]="grids[slot]" class="grid-preview">
+
+      <p *ngIf="grids[slot]" class="grid-url">
+        {{ grids[slot] }}
+      </p>
+
+      <input type="file" (change)="uploadGrid(slot, $any($event.target).files[0])" />
+      
+    </div>
+
+  </div>
+
+</div>

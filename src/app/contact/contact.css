@@ -1,0 +1,177 @@
+/* HERO */
+.phone-hero{
+  text-align:center;
+  padding:65px 20px;
+  background:#f1ffe9;
+}
+
+.phone-hero h2{
+  color:#2f6b2e;
+  font-size:38px;
+  margin-bottom:10px;
+}
+
+.phone-hero p{
+  color:#4b5563;
+  max-width:620px;
+  margin:auto;
+  font-size:18px;
+}
+
+
+
+/* MAIN */
+.phone-box{
+  width:92%;
+  max-width:900px;
+  margin:45px auto 100px auto;
+  display:flex;
+  justify-content:center;
+}
+
+
+
+/* CARD */
+.phone-card{
+  background:white;
+  padding:36px 32px;
+  border-radius:28px;
+  border:1px solid #e5e7eb;
+  width:100%;
+  max-width:620px;
+  text-align:center;
+
+  box-shadow:
+    0px 22px 45px rgba(0,0,0,0.11),
+    0px 10px 20px rgba(0,0,0,0.06);
+}
+
+.phone-card h3{
+  color:#1f2937;
+  font-size:28px;
+}
+
+.phone-card .desc{
+  color:#6b7280;
+  margin-top:6px;
+  margin-bottom:22px;
+}
+
+
+
+/* PHONE */
+.phone-display{
+  margin:20px auto;
+  padding:16px 22px;
+  border-radius:16px;
+  border:2px solid #2f6b2e;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:24px;
+  font-weight:800;
+  color:#2f6b2e;
+}
+
+.phone-display i{
+  font-size:22px;
+}
+
+
+
+/* BUTTON */
+.call-btn{
+  display:inline-block;
+  margin-top:18px;
+  padding:14px 22px;
+  border-radius:16px;
+  border:none;
+  background:linear-gradient(135deg,#3b7d37,#2f6b2e);
+  color:white;
+  font-weight:900;
+  font-size:17px;
+  cursor:pointer;
+  text-decoration:none;
+  transition:.25s;
+}
+
+.call-btn:hover{
+  transform:translateY(-3px) scale(1.03);
+}
+
+
+
+/* ===========================
+      STICKY CALL FOR MOBILE
+=========================== */
+.floating-call{
+  position:fixed;
+  bottom:18px;
+  right:18px;
+  background:#2f6b2e;
+  color:white;
+  padding:14px 18px;
+  border-radius:50px;
+  text-decoration:none;
+  font-weight:900;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  box-shadow:0px 12px 30px rgba(0,0,0,.25);
+  z-index:100;
+  transition:.3s;
+}
+
+.floating-call i{
+  font-size:18px;
+}
+
+.floating-call:hover{
+  transform:scale(1.05);
+}
+
+
+
+/* ===========================
+      RESPONSIVE
+=========================== */
+@media(max-width:900px){
+  .phone-hero h2{
+    font-size:32px;
+  }
+}
+
+@media(max-width:700px){
+
+  .phone-card{
+    padding:28px 22px;
+  }
+
+  .phone-display{
+    font-size:20px;
+    padding:12px 18px;
+  }
+
+  .phone-hero p{
+    font-size:16px;
+  }
+}
+
+@media(max-width:480px){
+
+  .phone-hero{
+    padding:45px 14px;
+  }
+
+  .phone-hero h2{
+    font-size:28px;
+  }
+
+  .phone-display{
+    font-size:18px;
+  }
+
+  .call-btn{
+    width:100%;
+  }
+}

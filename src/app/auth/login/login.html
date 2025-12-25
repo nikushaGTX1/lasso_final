@@ -1,0 +1,48 @@
+<div class="login-wrapper">
+
+  <div style="text-align:center; margin-bottom:15px;">
+    <button (click)="lang.setLang('geo')">GEO 🇬🇪</button>
+    <button (click)="lang.setLang('en')">EN 🇬🇧</button>
+  </div>
+
+  <div class="login-box">
+    <h2>{{ lang.t('loginTitle') }}</h2>
+
+    <p class="subtitle">
+      {{ lang.t('loginSub') }}
+    </p>
+
+    <div *ngIf="error" class="error-box">
+      {{ error }}
+    </div>
+
+    <form (ngSubmit)="submit()">
+
+      <label>{{ lang.t('email') }}</label>
+      <input
+        [(ngModel)]="email"
+        name="email"
+        type="email"
+        placeholder="{{ lang.t('email') }}"
+        required
+      />
+
+      <label>{{ lang.t('password') }}</label>
+      <input
+        [(ngModel)]="password"
+        name="password"
+        type="password"
+        placeholder="{{ lang.t('password') }}"
+        required
+      />
+
+      <button [disabled]="loading" type="submit">
+        <span *ngIf="!loading">{{ lang.t('loginBtn') }}</span>
+        <span *ngIf="loading">Loading...</span>
+      </button>
+
+    </form>
+
+  </div>
+
+</div>

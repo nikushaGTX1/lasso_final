@@ -1,0 +1,161 @@
+<div class="admin-wrapper">
+
+  <h1 class="title">Admin Panel</h1>
+
+  <!-- ================= HEADER ================= -->
+  <div class="admin-header">
+    <button class="refresh" (click)="loadProducts()">Refresh</button>
+  </div>
+
+  <!-- ================= LOADING ================= -->
+  <div *ngIf="loading" class="loading">
+    Loading products...
+  </div>
+
+  <!-- ================= ADD PRODUCT ================= -->
+  <section class="card">
+    <h2>Add Product</h2>
+
+    <form [formGroup]="form" (ngSubmit)="addProduct()" class="form">
+
+      <input formControlName="name" placeholder="Product Name" class="input">
+      <input formControlName="price" type="number" placeholder="Price" class="input">
+      <input formControlName="image" placeholder="Image URL" class="input">
+
+      <textarea
+        formControlName="description"
+        placeholder="Description"
+        class="input textarea">
+      </textarea>
+
+      <select formControlName="category" class="input">
+        <option value="Creams">Creams</option>
+      </select>
+
+      <button type="submit" class="btn primary">
+        + Add Product
+      </button>
+
+    </form>
+  </section>
+
+  <hr>
+
+  <!-- ================= ABOUT TEXTS ================= -->
+  <section class="card">
+    <h2>About Page Texts</h2>
+
+    <button (click)="loadTexts()" class="refresh">
+      Load Current Texts
+    </button>
+
+    <div class="grid">
+
+      <div class="field">
+        <label>Hero Title</label>
+        <input [(ngModel)]="about.About_HeroTitle" class="input">
+      </div>
+
+      <div class="field">
+        <label>Hero Text</label>
+        <textarea [(ngModel)]="about.About_HeroText" class="input textarea"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Who Title</label>
+        <input [(ngModel)]="about.About_Who" class="input">
+      </div>
+
+      <div class="field">
+        <label>Who Text</label>
+        <textarea [(ngModel)]="about.About_WhoText" class="input textarea"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Philosophy Title</label>
+        <input [(ngModel)]="about.About_Philosophy" class="input">
+      </div>
+
+      <div class="field">
+        <label>Philosophy Text</label>
+        <textarea [(ngModel)]="about.About_PhilosophyText" class="input textarea"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Mission Title</label>
+        <input [(ngModel)]="about.About_Mission" class="input">
+      </div>
+
+      <div class="field">
+        <label>Mission Text</label>
+        <textarea [(ngModel)]="about.About_MissionText" class="input textarea"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Trust Title</label>
+        <input [(ngModel)]="about.About_Trust" class="input">
+      </div>
+
+      <div class="field">
+        <label>Explore Button Text</label>
+        <input [(ngModel)]="about.About_ExploreBtn" class="input">
+      </div>
+
+    </div>
+
+    <button (click)="saveTexts()" class="btn success">
+      Save About Texts
+    </button>
+
+  </section>
+
+  <hr>
+
+  <!-- ================= PRODUCTS LIST ================= -->
+  <section class="card">
+    <h2>Products</h2>
+
+    <table *ngIf="products.length > 0" class="table">
+
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>ID</th>
+        <th></th>
+      </tr>
+
+      <tr *ngFor="let p of pagedProducts">
+
+        <td>
+          <img [src]="p.image" class="img">
+        </td>
+
+        <td>{{ p.name }}</td>
+        <td>${{ p.price }}</td>
+        <td>{{ p.id }}</td>
+
+        <td>
+          <button (click)="delete(p.id)" class="btn danger">
+            Delete
+          </button>
+        </td>
+
+      </tr>
+
+    </table>
+
+    <p *ngIf="products.length === 0">
+      No products found.
+    </p>
+
+    <!-- PAGINATION -->
+    <div class="pagination" *ngIf="products.length > pageSize">
+      <button (click)="prevPage()" [disabled]="page === 1">Prev</button>
+      <span> Page {{ page }} / {{ totalPages }} </span>
+      <button (click)="nextPage()" [disabled]="page === totalPages">Next</button>
+    </div>
+
+  </section>
+
+</div>

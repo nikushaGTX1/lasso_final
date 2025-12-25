@@ -1,0 +1,63 @@
+<div class="products-wrapper">
+
+  <h2 class="title">Products</h2>
+
+  <!-- LOADER -->
+  <div class="loader" *ngIf="loading">
+    Loading products...
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="products-grid" *ngIf="!loading">
+
+    <div
+      class="product-card"
+      *ngFor="let cream of paginatedProducts"
+      [routerLink]="['/product', cream.id]"
+      role="button">
+
+      <div class="img-box">
+        <img [src]="cream.image" alt="{{cream.name}}">
+      </div>
+
+      <h3 class="prod-name">
+        {{ cream.name }}
+      </h3>
+
+      <div class="bottom">
+        <span class="price">{{ cream.price }} ₾</span>
+
+        <button class="buy-btn" (click)="$event.stopPropagation()">
+          Buy Now
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="pagination" *ngIf="totalPages > 1">
+
+    <button class="nav-btn"
+            [disabled]="currentPage === 1"
+            (click)="prev()">
+      ‹ Prev
+    </button>
+
+    <button class="page-btn"
+            *ngFor="let p of [].constructor(totalPages); let i = index"
+            [class.active]="i + 1 === currentPage"
+            (click)="goToPage(i + 1)">
+      {{ i + 1 }}
+    </button>
+
+    <button class="nav-btn"
+            [disabled]="currentPage === totalPages"
+            (click)="next()">
+      Next ›
+    </button>
+
+  </div>
+
+</div>

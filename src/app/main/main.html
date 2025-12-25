@@ -1,0 +1,40 @@
+<div class="banner-container">
+
+  <img *ngIf="bannerUrl" [src]="bannerUrl" alt="" class="banner1">
+
+  <img *ngIf="!bannerUrl" src="assets/default-banner.jpg" alt="" class="banner1">
+
+  <button class="btn">
+    {{ lang.t('bannerBtn') }}
+  </button>
+
+</div>
+
+
+<div class="product-grid">
+  <div class="item i2"><img src="img2.jpeg"></div>
+  <div class="item i3"><img src="img3.jpg"></div>
+  <div class="item i4"><img src="img4.jpg"></div>
+  <div class="item i5"><img src="img5.png"></div>
+</div>
+
+
+<section class="about-section">
+
+  <img src="/logo.jpg" alt="Logo" class="about-logo">
+
+  <div class="divider"></div>
+
+  <h2 class="about-title">
+    {{ lang.t('aboutTitle') }}
+  </h2>
+
+  <p class="about-text">
+    {{ lang.t('aboutText') }}
+  </p>
+
+  <button class="about-btn" [routerLink]="['/products']">
+    {{ lang.t('aboutBtn') }}
+  </button>
+
+</section>

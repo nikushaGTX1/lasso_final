@@ -1,0 +1,207 @@
+/* =======================
+   HERO BANNER
+======================= */
+.banner-container{
+  position: relative;
+  width: 100%;
+  height: 520px;
+  overflow: hidden;
+  margin-top: 3%;
+}
+
+.banner1{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Banner Button */
+.btn{
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 18px 80px;
+  background-color: #aebc9f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  outline: 2px solid #aebc9f;
+  outline-offset: 2px;
+}
+
+
+
+/* =======================
+   PRODUCT GRID
+======================= */
+.product-grid{
+  width: 85%;
+  margin: 40px auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+.product-grid img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.item{
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,.1);
+}
+
+/* same stylish tall layout */
+.i2{ grid-row: span 2; }
+.i5{ grid-row: span 2; }
+
+
+
+/* =======================
+   ABOUT SECTION
+======================= */
+.about-section{
+  text-align: center;
+  padding: 120px 20px;
+  background: #f9faf7;
+  width: 100%;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.15),
+              0 10px 10px rgba(0,0,0,0.1);
+}
+
+/* Logo */
+.about-logo{
+  height: 80px;
+  opacity: .9;
+  object-fit: contain;
+}
+
+/* Gold thin line */
+.divider{
+  width: 220px;
+  height: 2px;
+  background: #c1ab6b;
+  margin: 18px auto 25px auto;
+}
+
+/* Title */
+.about-title{
+  font-size: 30px;
+  letter-spacing: 2px;
+  margin-bottom: 25px;
+}
+
+
+
+/* ⭐ Centered readable text */
+.about-text{
+  max-width: 750px;
+  margin: 0 auto 40px auto;
+  font-size: 18px;
+  color: #555;
+  line-height: 30px;
+  text-align: center;
+}
+
+
+
+/* Button */
+.about-btn{
+  padding: 18px 80px;
+  background: #aebc9f;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: 2px solid #aebc9f;
+  outline-offset: 2px;
+}
+
+
+
+/* =======================
+   RESPONSIVE
+======================= */
+
+/* TABLET */
+@media(max-width: 1100px){
+
+  .banner-container{
+    height: 420px;
+  }
+
+  .product-grid{
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* LARGE PHONE / SMALL TABLET */
+@media(max-width: 900px){
+
+  .banner-container{
+    height: 360px;
+  }
+
+  .btn{
+    padding: 14px 55px;
+    font-size: 16px;
+  }
+
+  .product-grid{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .i2,
+  .i5{
+    grid-row: auto;
+  }
+
+  .about-title{
+    font-size: 24px;
+  }
+
+  .about-text{
+    font-size: 16px;
+    line-height: 26px;
+  }
+}
+
+/* PHONE */
+@media(max-width: 550px){
+
+  .banner-container{
+    height: 260px;
+  }
+
+  .btn{
+    padding: 12px 40px;
+    font-size: 15px;
+    top: 75%;
+  }
+
+  .product-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .about-section{
+    padding: 80px 18px;
+  }
+
+  .about-title{
+    font-size: 22px;
+  }
+
+  .about-text{
+    max-width: 95%;
+  }
+}
