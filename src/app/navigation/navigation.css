@@ -8,11 +8,13 @@
   align-items: center;
 }
 
+/* LOGO */
 .logo img{
   height: 80px;
   object-fit: contain;
 }
 
+/* DESKTOP MENU ROW */
 .menu-row{
   width: 100%;
   margin-top: 20px;
@@ -22,6 +24,7 @@
   gap: 60px;
 }
 
+/* DESKTOP MENU LIST */
 .menu-row ul {
   display: flex;
   gap: 40px;
@@ -35,8 +38,8 @@ li{
 }
 
 ul li:hover{
-  color: rgba(0, 128, 0, 0.363);
-  transition: 0.5s;
+  color: rgba(0, 128, 0, 0.45);
+  transition: .3s;
 }
 
 /* Icons right */
@@ -90,71 +93,48 @@ ul li:hover{
   color: #2563eb;
 }
 
-/* =====================
-   MOBILE
-===================== */
 
-.mobile-menu{
-  display: none !important;
-}
-
-.burger{
-  display: none;
-}
-
-/* MOBILE MODE */
+/* ===========================
+   RESPONSIVE STACK LAYOUT
+=========================== */
 @media(max-width: 900px){
 
-  .menu-row ul,
-  .icons{
-    display: none;
-  }
-
-  .burger{
-    display: block;
-    font-size: 28px;
-    cursor: pointer;
-  }
-
-  .mobile-menu{
-    display: block !important;
-    width: 90%;
-    background: white;
-    max-height: 0;
-    overflow: hidden;
-    transition: .3s;
-    box-shadow: 0 10px 25px rgba(0,0,0,.15);
-    border-radius: 10px;
-  }
-
-  .mobile-menu.open{
-    max-height: 420px;
-    padding: 10px 0;
-  }
-
-  .mobile-menu ul{
-    display: flex;
+  /* Whole nav becomes vertical */
+  .menu-row{
     flex-direction: column;
-    gap: 14px;
-    padding-left: 20px;
+    gap: 18px;
   }
 
-  .mobile-menu li{
-    font-size: 16px;
-  }
-
-  .mobile-icons{
-    margin-top: 10px;
-    padding-left: 20px;
-    display: flex;
+  /* Menu list becomes vertical */
+  .menu-row ul{
+    flex-direction: column;
+    align-items: center;
     gap: 10px;
   }
 
-  .mobile-icons button{
-    padding: 6px 14px;
-    border-radius: 8px;
-    border: none;
-    color: white;
-    background: #2563eb;
+  li{
+    font-size: 15px;
+  }
+
+  /* Icons go under menu */
+  .icons{
+    font-size: 20px;
+    gap: 12px;
+  }
+}
+
+/* Mobile – slightly smaller */
+@media(max-width: 550px){
+
+  .logo img{
+    height: 70px;
+  }
+
+  li{
+    font-size: 14px;
+  }
+
+  .icons{
+    font-size: 18px;
   }
 }

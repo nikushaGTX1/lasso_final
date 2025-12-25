@@ -7,7 +7,7 @@
     </a>
   </div>
 
-  <!-- DESKTOP MENU -->
+  <!-- ALWAYS VISIBLE MENU -->
   <div class="menu-row">
 
     <ul>
@@ -21,7 +21,7 @@
       </li>
     </ul>
 
-    <!-- DESKTOP ICONS -->
+    <!-- ICONS -->
     <div class="icons">
 
       <div class="lang-switch">
@@ -45,44 +45,6 @@
       <i *ngIf="isAdmin"
         class="fa-solid fa-right-from-bracket logout-icon"
         (click)="logout()"></i>
-
-    </div>
-
-    <!-- MOBILE BURGER -->
-    <i class="fa-solid fa-bars burger" (click)="toggleMenu()"></i>
-
-  </div>
-
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" [class.open]="mobileOpen">
-
-    <ul>
-      <li routerLink="/" (click)="toggleMenu()">{{ lang.t('home') }}</li>
-      <li routerLink="/products" (click)="toggleMenu()">{{ lang.t('products') }}</li>
-      <li routerLink="/about-us" (click)="toggleMenu()">{{ lang.t('about') }}</li>
-      <li routerLink="/contact" (click)="toggleMenu()">{{ lang.t('contact') }}</li>
-
-      <li *ngIf="isAdmin"
-          routerLink="/admin-cards"
-          (click)="toggleMenu()">
-          {{ lang.t('admin') }}
-      </li>
-    </ul>
-
-    <div class="mobile-icons">
-
-      <div class="lang-switch">
-        <span 
-          [class.active]="lang.lang === 'geo'"
-          (click)="lang.setLang('geo')">GEO</span>
-        |
-        <span 
-          [class.active]="lang.lang === 'en'"
-          (click)="lang.setLang('en')">EN</span>
-      </div>
-
-      <button *ngIf="!isAdmin" (click)="goLogin()">Login</button>
-      <button *ngIf="isAdmin" (click)="logout()">Logout</button>
 
     </div>
 
