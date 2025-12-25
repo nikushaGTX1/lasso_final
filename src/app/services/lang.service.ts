@@ -42,26 +42,21 @@ export class LangService {
 
       aboutTitle: "ABOUT US",
       aboutText:
-        "We want to adhere to the concept, in order to bring customers\n" +
-        "better products.\n\n" +
-        "In order to make all the pain can be understated.\n" +
-        "All for customers\n" +
-        "Yiganerjing Official",
+        "We created this platform to offer customers high-quality and safe products made with natural ingredients. We treat every customer with care and are always ready to help. Our goal is to ensure that everyone feels comfortable and protected when using our products.",
 
       aboutBtn: "View More",
 
       // ABOUT PAGE
       aboutHeroTitle: "ABOUT US",
       aboutHeroText:
-        "We focus on delivering safe, herbal-based skincare solutions designed " +
-        "to help our customers feel confident, comfortable, and healthy.",
+        "We created this platform to offer customers high-quality and safe products made with natural ingredients. We treat every customer with care and are always ready to help. Our goal is to ensure that everyone feels comfortable and protected when using our products.",
 
       aboutWho: "Who We Are",
-      aboutWhoText: "Our brand is built on trust, quality, and herbal innovation...",
+      aboutWhoText: "Our company is focused on offering high-quality, reliable products made with natural ingredients.",
       aboutPhilosophy: "Our Philosophy",
-      aboutPhilosophyText: "We believe nature holds the best remedies...",
+      aboutPhilosophyText: "Our work is dedicated to the continuous improvement of quality standards, transparency, and customer care. We pay attention to every detail to ensure reliability and effectiveness in our products.",
       aboutMission: "Our Mission",
-      aboutMissionText: "To provide reliable and affordable skincare products...",
+      aboutMissionText: "Our mission is to offer customers trustworthy, clinically reliable products that meet modern requirements and safety standards. We strive to be a responsible and dependable partner for every customer.",
       aboutTrust: "Trusted by thousands of customers worldwide",
       aboutExploreBtn: "Explore Products",
 
@@ -122,20 +117,18 @@ export class LangService {
 
       aboutTitle: "ჩვენ შესახებ",
       aboutText:
-        "ჩვენ გვინდა შევინარჩუნოთ ხარისხის კონცეფცია...\n" +
-        "ყველაფერი მომხმარებლისთვის\n" +
-        "Yiganerjing ოფიციალური",
+        "ჩვენ შევქმენით ეს პლატფორმა, რათა მომხმარებლებს შევთავაზოთ ხარისხიანი და უსაფრთხო პროდუქცია ბუნებრივი ინგრედიენტებით. ყოველ მომხმარებელს ყურადღებით ვუდგებით და ყოველთვის მზად ვართ დახმარებისთვის. ჩვენი მიზანია, რომ თითოეულმა ადამიანმა თავი კომფორტულად და დაცულად იგრძნოს ჩვენი პროდუქტის გამოყენებისას.",
 
       aboutBtn: "მეტი ნახვა",
 
       aboutHeroTitle: "ჩვენ შესახებ",
-      aboutHeroText: "ჩვენ ვქმნით უსაფრთხო ბალახოვან პროდუქტებს...",
+      aboutHeroText: "ჩვენ შევქმენით ეს პლატფორმა, რათა მომხმარებლებს შევთავაზოთ ხარისხიანი და უსაფრთხო პროდუქცია ბუნებრივი ინგრედიენტებით. ყოველ მომხმარებელს ყურადღებით ვუდგებით და ყოველთვის მზად ვართ დახმარებისთვის. ჩვენი მიზანია, რომ თითოეულმა ადამიანმა თავი კომფორტულად და დაცულად იგრძნოს ჩვენი პროდუქტის გამოყენებისას.",
       aboutWho: "ვინ ვართ ჩვენ",
-      aboutWhoText: "ჩვენი ბრენდი დაფუძნებულია ნდობაზე...",
+      aboutWhoText: "ჩვენი კომპანია ორიენტირებულია მაღალი ხარისხის, სანდო და ბუნებრივ ინგრედიენტებზე დაფუძნებული პროდუქციის შეთავაზებაზე. ვმუშაობთ პასუხისმგებლობითა და პროფესიონალიზმით, რათა ჩვენს მომხმარებლებს მივაწოდოთ უსაფრთხო და ეფექტური გადაწყვეტილებები.",
       aboutPhilosophy: "ჩვენი ფილოსოფია",
-      aboutPhilosophyText: "ჩვენ გვწამს ბუნებრივი საშუალებები...",
+      aboutPhilosophyText: "ჩვენი საქმიანობა მიმართულია ხარისხის სტანდარტების მუდმივ გაუმჯობესებაზე, გამჭვირვალობაზე და მომხმარებელზე ზრუნვაზე. ყურადღებას ვაქცევთ თითოეულ დეტალს, რათა უზრუნველვყოთ პროდუქციის საიმედოობა და შედეგიანობა.",
       aboutMission: "ჩვენი მისია",
-      aboutMissionText: "სანდო და ხელმისაწვდომი პროდუქცია...",
+      aboutMissionText: "ჩვენი მისიაა მომხმარებლებს შევთავაზოთ იმედზე დაფუძნებული და კლინიკურად სანდო პროდუქცია, რომელიც აკმაყოფილებს თანამედროვე მოთხოვნებსა და უსაფრთხოების ნორმებს. ვცდილობთ, ვიყოთ პასუხისმგებელი და საიმედო პარტნიორი თითოეული მომხმარებლისთვის.",
       aboutTrust: "სანდო მსოფლიოს ათასობით მომხმარებლისთვის",
       aboutExploreBtn: "პროდუქტების ნახვა",
 

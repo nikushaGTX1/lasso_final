@@ -1,140 +1,97 @@
-.qr-result{
-  min-height: 85vh;
-  padding: 40px 18px 70px;
+/* IMPORTANT – fixes shrinking in tiny spaces */
+*{
+  box-sizing: border-box;
+}
+
+/* PAGE */
+.qr-wrapper{
+  min-height: 70vh;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  background: #f3f6f1;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  padding: 10px;
+  background:#f3f6f1;
+  font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 
-/* ---------------- IMAGE ---------------- */
-.qr-image-wrap{
-  margin-bottom: 22px;
-}
-
-.qr-image{
-  max-width: min(260px, 90vw);
-  width: 100%;
-  border-radius: 18px;
-  object-fit: cover;
-  box-shadow: 0 16px 45px rgba(0,0,0,0.14);
-  border: 3px solid #dde6d2;
-}
-
-/* ---------------- CARD ---------------- */
+/* CARD */
 .qr-card{
-  max-width: 650px;
   width: 100%;
-  background: #ffffff;
-  border-radius: 24px;
-  padding: clamp(18px, 3vw, 40px);
-  box-shadow: 0 26px 55px rgba(0,0,0,0.14);
+  max-width: 650px;
+  background:#fff;
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: 0 25px 60px rgba(0,0,0,.15);
   border: 1px solid #e3e6e3;
   text-align: center;
+
+  /* 🔥 CRITICAL */
+  min-width: 0;
 }
 
-/* ---------------- BADGE ---------------- */
+/* BADGE */
 .qr-badge{
   display: inline-flex;
-  align-items: center;
-  gap: clamp(8px, 2vw, 14px);
-  padding: clamp(8px, 2vw, 14px) clamp(12px, 3vw, 24px);
-  border-radius: 999px;
-  background: #ecfdf3;
-  color: #166534;
-  font-size: clamp(16px, 3vw, 28px);
-  font-weight: 800;
-  margin-bottom: clamp(10px, 2vw, 18px);
-  white-space: nowrap;
+  align-items:center;
+  gap:8px;
+  background:#ecfdf3;
+  color:#166534;
+  padding:8px 14px;
+  border-radius:999px;
+  font-weight:800;
+  margin-bottom:14px;
+  font-size: clamp(12px, 3vw, 22px); /* 🔥 slightly bigger than before */
+
+  /* 🔥 stop overflow */
+  overflow-wrap:anywhere;
+  word-break:break-word;
 }
 
-.qr-badge .check{
-  width: clamp(38px, 6vw, 58px);
-  height: clamp(38px, 6vw, 58px);
-  border-radius: 50%;
-  background: #22c55e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: clamp(22px, 4vw, 42px);
+.check{
+  width:32px;
+  height:32px;
+  background:#22c55e;
+  color:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size: clamp(12px, 3vw, 20px);
 }
 
-.badge-text{
-  display: block;
+/* TEXT — WILL NEVER BREAK OUT */
+.qr-card h2,
+.qr-card p{
+  max-width: 100%;
+  margin: 8px 0;
+
+  /* 🔥 THIS IS THE REAL FIX */
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  white-space:normal;
 }
 
-/* ---------------- TEXT ---------------- */
+/* smooth scaling */
 .qr-card h2{
-  font-size: clamp(18px, 3.5vw, 26px);
-  color: #111827;
-  margin-bottom: clamp(8px, 1.5vw, 14px);
+  line-height: 1.35;
+  font-size: clamp(11px, 3vw, 18px);
 }
 
-.qr-text{
-  font-size: clamp(14px, 2.8vw, 17px);
-  color: #4b5563;
-  line-height: 1.9;
-  margin-bottom: 10px;
+.qr-card p{
+  font-size: clamp(11px, 3.8vw, 20px);  /* 🔥 slightly larger */
+  line-height: 1.75;
 }
 
-/* ---------------- CONTACT ---------------- */
-.qr-contact{
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px dashed #c9d3c1;
-  font-size: clamp(13px, 2.8vw, 16px);
-  color: #374151;
-}
 
-.qr-contact p{
-  margin: 4px 0;
-}
-
-/* ---------------- FACEBOOK BUTTON ---------------- */
-.fb-btn{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 22px;
-  background: #1877f2;
-  color: white;
-  text-decoration: none;
-  font-weight: 800;
-  padding: clamp(10px, 2.5vw, 14px) clamp(16px, 4vw, 26px);
-  border-radius: 12px;
-  font-size: clamp(13px, 2.6vw, 16px);
-  transition: .25s;
-}
-
-.fb-btn:hover{
-  background: #0f5ed0;
-  transform: translateY(-2px);
-}
-
-.fb-btn i{
-  font-size: clamp(16px, 3vw, 20px);
-}
-
-/* ===================================================
-      RESPONSIVE BREAKPOINTS REFINEMENTS
-================================================== */
-
-@media(max-width: 900px){
+/* EXTRA tiny screens */
+@media(max-width: 300px){
   .qr-card{
-    max-width: 92%;
-  }
-}
-
-@media(max-width: 600px){
-  .qr-result{
-    padding: 24px 12px 55px;
+    padding: 10px;
+    border-radius: 12px;
   }
 
-  .qr-card{
-    border-radius: 18px;
-    box-shadow: 0 18px 35px rgba(0,0,0,0.12);
+  .qr-badge{
+    width:100%;
+    justify-content:center;
   }
 }
