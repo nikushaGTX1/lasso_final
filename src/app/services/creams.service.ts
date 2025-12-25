@@ -6,7 +6,7 @@ export interface Cream {
   id?: string;
   name: string;
   description: string;
-  image: string;
+  image?: string;
   price: number;
   category: string;
 }
@@ -16,34 +16,31 @@ export interface Cream {
 })
 export class CreamsService {
 
-  private apiUrl = 'https://webapplication1-2jq8.onrender.com/api/Api/get-creams';
-  private addUrl = 'https://webapplication1-2jq8.onrender.com/api/Api/add-product';
+  private base = 'https://webapplication1-2jq8.onrender.com/api/Api';
 
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Cream[]> {
-    return this.http.get<Cream[]>(this.apiUrl);
+    return this.http.get<Cream[]>(`${this.base}/get-creams`);
   }
 
-  addCream(cream: Cream): Observable<Cream> {
-    cream.category = 'Creams';
-    return this.http.post<Cream>(this.addUrl, cream);
+  // ================= ADD =================
+  addCream(data: FormData): Observable<any> {
+    return this.http.post(`${this.base}/add-product`, data);
   }
 
+  // ================= EDIT =================
   editCream(cream: Cream): Observable<Cream> {
-    if (!cream.id) {
-      throw new Error('Cream ID is required for editing');
-    }
+    if (!cream.id) throw new Error('Cream ID is required for editing');
 
     return this.http.put<Cream>(
-      `https://webapplication1-2jq8.onrender.com/api/Api/edit-product/${cream.id}`,
+      `${this.base}/edit-product/${cream.id}`,
       cream
     );
   }
 
+  // ================= DELETE =================
   deleteCream(id: string): Observable<any> {
-    return this.http.delete(
-      `https://webapplication1-2jq8.onrender.com/api/Api/${id}`
-    );
+    return this.http.delete(`${this.base}/${id}`);
   }
 }

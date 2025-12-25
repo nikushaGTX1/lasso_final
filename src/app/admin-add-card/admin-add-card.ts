@@ -47,6 +47,9 @@ export class AdminAddCard implements OnInit, OnDestroy {
     About_ExploreBtn: ''
   };
 
+  // FILE HOLDER
+  selectedFile: File | null = null;
+
   constructor(
     private fb: FormBuilder,
     private creamsService: CreamsService,
@@ -57,7 +60,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
       id: [''],
       name: ['', Validators.required],
       description: [''],
-      image: [''],
+      image: [''],                   // optional direct URL
       price: [0, Validators.required],
       category: ['Creams', Validators.required]
     });
@@ -72,6 +75,11 @@ export class AdminAddCard implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.sub) this.sub.unsubscribe();
+  }
+
+  // ================= FILE SELECT =================
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files?.[0] ?? null;
   }
 
   // ================= PRODUCTS =================
@@ -92,14 +100,39 @@ export class AdminAddCard implements OnInit, OnDestroy {
   }
 
   submit() {
-    const value = this.cardForm.value as any;
+    const value = this.cardForm.value;
 
+    // ================= EDIT MODE (still JSON for now)
     if (this.editingCard) {
       this.creamsService.editCream(value).subscribe(() => this.afterSave());
       return;
     }
 
-    this.creamsService.addCream(value).subscribe(() => this.afterSave());
+    // ================= ADD MODE (FormData)
+    const formData = new FormData();
+
+    formData.append('name', value.name ?? '');
+    formData.append('description', value.description ?? '');
+    formData.append('category', value.category ?? 'Creams');
+    formData.append('price', String(value.price ?? 0));
+
+    // optional image URL
+    if (value.image) {
+      formData.append('image', value.image);
+    }
+
+    // uploaded file
+    if (this.selectedFile) {
+      formData.append('imageFile', this.selectedFile);
+    }
+
+    this.creamsService.addCream(formData).subscribe({
+      next: () => this.afterSave(),
+      error: err => {
+        console.error('UPLOAD FAILED', err);
+        Swal.fire({ icon: 'error', title: 'Upload Failed!' });
+      }
+    });
   }
 
   afterSave() {
@@ -117,6 +150,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
   editCard(card: any) {
     this.editingCard = card;
     this.cardForm.patchValue(card);
+    this.selectedFile = null;
   }
 
   deleteCard(card: any) {
@@ -142,6 +176,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
 
   resetForm() {
     this.editingCard = null;
+    this.selectedFile = null;
     this.cardForm.reset({ category: 'Creams', price: 0 });
   }
 

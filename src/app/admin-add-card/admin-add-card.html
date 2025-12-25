@@ -22,6 +22,10 @@
     <label>Image URL</label>
     <input formControlName="image" placeholder="https://example.com/image.jpg" />
 
+    <label>Upload Image</label>
+    <input type="file" (change)="onFileSelected($event)" />
+
+
     <label>Price</label>
     <input type="number" formControlName="price" placeholder="0.00" required />
 
