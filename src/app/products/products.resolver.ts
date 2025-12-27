@@ -11,6 +11,6 @@ export class ProductsResolver implements Resolve<any> {
   constructor(private http: HttpClient) {}
 
   resolve(): Observable<any> {
-    return this.http.get('https://webapplication1-2jq8.onrender.com/api/Api/get-creams');
+    return this.http.get('https://webapplication1-tg9f.onrender.com/api/Api/get-creams');
   }
 }
