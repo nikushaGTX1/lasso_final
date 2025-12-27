@@ -6,7 +6,7 @@ export class LangService {
 
   constructor(private http: HttpClient) {}
 
-  private api = 'https://webapplication1-2jq8.onrender.com/api/Api';
+  private api = 'https://webapplication1-tg9f.onrender.com/api/Api';
 
   lang = localStorage.getItem('lang') || 'en';
 

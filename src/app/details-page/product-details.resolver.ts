@@ -15,7 +15,7 @@ export class ProductDetailsResolver implements Resolve<any> {
     const id = route.paramMap.get('id');
 
     return this.http
-      .get<any[]>('https://webapplication1-2jq8.onrender.com/api/Api/get-creams')
+      .get<any[]>('https://webapplication1-tg9f.onrender.com/api/Api/get-creams')
       .pipe(
         map(list => list.find(p => p.id === id) ?? null)
       );

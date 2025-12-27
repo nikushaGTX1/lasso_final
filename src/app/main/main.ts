@@ -33,7 +33,7 @@ export class Main implements OnInit {
     // ======================
     // LOAD BANNER IMAGE
     // ======================
-    this.http.get<any>('https://webapplication1-2jq8.onrender.com/api/Api/banner')
+    this.http.get<any>('https://webapplication1-tg9f.onrender.com/api/Api/banner')
       .subscribe({
         next: res => {
           this.bannerUrl = res?.bannerUrl || '';
@@ -47,7 +47,7 @@ export class Main implements OnInit {
     // ======================
     // LOAD GRID IMAGES (1–7)
     // ======================
-    this.http.get<any>('https://webapplication1-2jq8.onrender.com/api/Api/grid')
+    this.http.get<any>('https://webapplication1-tg9f.onrender.com/api/Api/grid')
       .subscribe({
         next: res => {
           console.log("🧩 GRID DATA:", res);
@@ -70,7 +70,7 @@ export class Main implements OnInit {
     // LOAD MAIN PAGE DATA
     // ======================
     this.http.get(
-      'https://webapplication1-2jq8.onrender.com/api/Api/get-vitamins'
+      'https://webapplication1-tg9f.onrender.com/api/Api/get-vitamins'
     )
       .subscribe({
         next: (res: any) => {

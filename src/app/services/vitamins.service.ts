@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({ providedIn: 'root' })
 export class VitaminsService {
 
-  api = 'https://webapplication1-2jq8.onrender.com/api/Api';
+  api = 'https://webapplication1-tg9f.onrender.com/api/Api';
 
   constructor(private http: HttpClient) {}
 

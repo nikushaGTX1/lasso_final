@@ -13,7 +13,7 @@ export class Admin implements OnInit {
   products: any[] = [];
   loading = false;
 
-  api = "https://webapplication1-2jq8.onrender.com/api/Api";
+  api = "https://webapplication1-tg9f.onrender.com/api/Api";
 
   form!: FormGroup;
 

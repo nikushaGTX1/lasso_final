@@ -8,7 +8,7 @@ import { Medicine } from '../models/medicine.model';
 })
 export class MedicineService {
 
-  private apiUrl = 'https://webapplication1-2jq8.onrender.com/api/Api';
+  private apiUrl = 'https://webapplication1-tg9f.onrender.com/api/Api';
 
   constructor(private http: HttpClient) {}
 

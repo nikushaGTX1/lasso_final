@@ -16,7 +16,7 @@ export interface Cream {
 })
 export class CreamsService {
 
-  private base = 'https://webapplication1-2jq8.onrender.com/api/Api';
+  private base = 'https://webapplication1-tg9f.onrender.com/api/Api';
 
   constructor(private http: HttpClient) {}
 

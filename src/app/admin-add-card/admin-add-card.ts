@@ -47,7 +47,6 @@ export class AdminAddCard implements OnInit, OnDestroy {
     About_ExploreBtn: ''
   };
 
-  // FILE HOLDER
   selectedFile: File | null = null;
 
   constructor(
@@ -60,7 +59,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
       id: [''],
       name: ['', Validators.required],
       description: [''],
-      image: [''],                   // optional direct URL
+      image: [''],
       price: [0, Validators.required],
       category: ['Creams', Validators.required]
     });
@@ -77,12 +76,10 @@ export class AdminAddCard implements OnInit, OnDestroy {
     if (this.sub) this.sub.unsubscribe();
   }
 
-  // ================= FILE SELECT =================
   onFileSelected(event: any) {
     this.selectedFile = event.target.files?.[0] ?? null;
   }
 
-  // ================= PRODUCTS =================
   loadCreams() {
     this.sub = this.creamsService.getAll().subscribe(res => {
       this.creams = res || [];
@@ -102,29 +99,19 @@ export class AdminAddCard implements OnInit, OnDestroy {
   submit() {
     const value = this.cardForm.value;
 
-    // ================= EDIT MODE (still JSON for now)
     if (this.editingCard) {
       this.creamsService.editCream(value).subscribe(() => this.afterSave());
       return;
     }
 
-    // ================= ADD MODE (FormData)
     const formData = new FormData();
-
     formData.append('name', value.name ?? '');
     formData.append('description', value.description ?? '');
     formData.append('category', value.category ?? 'Creams');
     formData.append('price', String(value.price ?? 0));
 
-    // optional image URL
-    if (value.image) {
-      formData.append('image', value.image);
-    }
-
-    // uploaded file
-    if (this.selectedFile) {
-      formData.append('imageFile', this.selectedFile);
-    }
+    if (value.image) formData.append('image', value.image);
+    if (this.selectedFile) formData.append('imageFile', this.selectedFile);
 
     this.creamsService.addCream(formData).subscribe({
       next: () => this.afterSave(),
@@ -180,9 +167,9 @@ export class AdminAddCard implements OnInit, OnDestroy {
     this.cardForm.reset({ category: 'Creams', price: 0 });
   }
 
-  // ================= ABOUT TEXTS =================
+  // ===== ABOUT TEXTS =====
   loadTexts() {
-    fetch('https://webapplication1-2jq8.onrender.com/api/Api/about-texts')
+    fetch('https://webapplication1-tg9f.onrender.com/api/Api/about-texts')
       .then(r => r.json())
       .then(r => {
         this.about = { ...this.about, ...(r || {}) };
@@ -192,7 +179,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
   }
 
   saveTexts() {
-    fetch('https://webapplication1-2jq8.onrender.com/api/Api/about-texts', {
+    fetch('https://webapplication1-tg9f.onrender.com/api/Api/about-texts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.about)
@@ -211,9 +198,9 @@ export class AdminAddCard implements OnInit, OnDestroy {
       );
   }
 
-  // ================= BANNER =================
+  // ===== BANNER =====
   loadBanner() {
-    fetch('https://webapplication1-2jq8.onrender.com/api/Api/banner')
+    fetch('https://webapplication1-tg9f.onrender.com/api/Api/banner')
       .then(r => r.json())
       .then(r => {
         this.currentBanner = r.bannerUrl || '';
@@ -227,7 +214,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
     const formData = new FormData();
     formData.append('file', file);
 
-    fetch('https://webapplication1-2jq8.onrender.com/api/Api/upload-banner', {
+    fetch('https://webapplication1-tg9f.onrender.com/api/Api/upload-banner', {
       method: 'POST',
       body: formData
     })
@@ -246,9 +233,9 @@ export class AdminAddCard implements OnInit, OnDestroy {
       .catch(() => Swal.fire({ icon: 'error', title: 'Upload Failed!' }));
   }
 
-  // ================= GRID =================
+  // ===== GRID =====
   loadGrids() {
-    fetch('https://webapplication1-2jq8.onrender.com/api/Api/grid')
+    fetch('https://webapplication1-tg9f.onrender.com/api/Api/grid')
       .then(r => r.json())
       .then(r => {
         this.grids = r || {};
@@ -262,7 +249,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
     const formData = new FormData();
     formData.append('file', file);
 
-    fetch(`https://webapplication1-2jq8.onrender.com/api/Api/upload-grid/${slot}`, {
+    fetch(`https://webapplication1-tg9f.onrender.com/api/Api/upload-grid/${slot}`, {
       method: 'POST',
       body: formData
     })
@@ -282,7 +269,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
   }
 
   deleteGrid(slot: number) {
-    fetch(`https://webapplication1-2jq8.onrender.com/api/Api/grid/${slot}`, {
+    fetch(`https://webapplication1-tg9f.onrender.com/api/Api/grid/${slot}`, {
       method: 'DELETE'
     })
       .then(() => {
