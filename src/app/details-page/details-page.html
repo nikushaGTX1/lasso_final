@@ -1,37 +1,34 @@
 <div class="details-wrapper" *ngIf="product">
 
-  <!-- Back -->
   <button class="back-btn" (click)="goBack()">
     ← Back to Products
   </button>
 
   <div class="details-card">
 
-    <!-- LEFT IMAGE -->
     <div class="image-side">
       <img [src]="product.image" alt="{{product.name}}">
     </div>
 
-    <!-- RIGHT INFO -->
     <div class="info-side">
 
       <h1>{{ product.name }}</h1>
 
-      <p class="short-text">
-        {{ product.description }}
-      </p>
+      <div class="product-description">
+        <h3>პროდუქტის შესახებ</h3>
+
+        <div class="desc-text" [innerHTML]="product.description"></div>
+      </div>
 
       <div class="price-box">
         <span class="price">{{ product.price }}₾</span>
       </div>
-
 
     </div>
 
   </div>
 
 </div>
-
 
 <div *ngIf="!product" class="fallback">
   Product not found.
