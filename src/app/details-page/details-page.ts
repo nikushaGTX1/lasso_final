@@ -29,16 +29,18 @@ export class DetailsPage implements OnInit {
     console.log("DETAIL PAGE PRODUCT:", this.product);
   }
 
-  cleanDescription(desc: string): string {
-    return desc
-      .replace(/&nbsp;/g, ' ')       // remove HTML spaces
-      .replace(/\s{2,}/g, ' ')       // multiple spaces → 1
-      .replace(/\n\s*\n+/g, '\n')    // remove empty lines
-      .trim()
-      .split('\n')
-      .map(p => `<p>${p.trim()}</p>`)
-      .join('');
-  }
+cleanDescription(desc: string): string {
+  return desc
+    .replace(/&nbsp;/g, ' ')          // remove HTML non-breaking spaces
+    .replace(/\s{2,}/g, ' ')          // collapse multiple spaces
+    .replace(/\n\s*\n+/g, '\n')       // collapse empty lines
+    .replace(/\s+([,.!?;:])/g, '$1')  // remove space before punctuation
+    .trim()
+    .split('\n')
+    .map(p => `<p>${p.trim()}</p>`)
+    .join('');
+}
+
 
   goBack() {
     this.location.back();

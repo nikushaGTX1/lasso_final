@@ -77,16 +77,13 @@
   margin-bottom:14px;
 }
 
-/* CLEAN TEXT */
 .desc-text{
   color:#2d2d2d;
   font-size:18px;
   line-height:1.85;
   max-width:650px;
-
-  text-align:justify;
+  text-align:left;
   text-justify:inter-word;
-
   white-space:normal;
   hyphens:auto;
   word-break:break-word;
