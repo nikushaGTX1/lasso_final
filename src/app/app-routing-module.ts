@@ -38,7 +38,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminAddCard, canActivate: [AuthGuard] },
   { path: 'admin-cards', component: AdminAddCard, canActivate: [AdminGuard] },
   { path: 'contact', component: Contact},
-  {path: 'qrcode', component: Qrcode},
+  {path: 'qrcode=CjwKCAiA33KBhBiEiwA2x7FdJofPP1ZtRKt7qcGLuUATa2adZjLYWkup37PC7y5uQUpkdZUEBoC8ZkQAvD', component: Qrcode},
   { path: '**', redirectTo: '' }
 ];
 
