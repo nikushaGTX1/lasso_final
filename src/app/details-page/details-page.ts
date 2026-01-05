@@ -21,26 +21,21 @@ export class DetailsPage implements OnInit {
     this.product = this.route.snapshot.data['product'];
 
     if (this.product?.description) {
-      this.product.description = this.cleanDescription(
+      this.product.description = this.formatDescription(
         this.product.description
       );
     }
 
-    console.log("DETAIL PAGE PRODUCT:", this.product);
+    console.log('DETAIL PAGE PRODUCT:', this.product);
   }
 
-cleanDescription(desc: string): string {
-  return desc
-    .replace(/&nbsp;/g, ' ')          // remove HTML non-breaking spaces
-    .replace(/\s{2,}/g, ' ')          // collapse multiple spaces
-    .replace(/\n\s*\n+/g, '\n')       // collapse empty lines
-    .replace(/\s+([,.!?;:])/g, '$1')  // remove space before punctuation
-    .trim()
-    .split('\n')
-    .map(p => `<p>${p.trim()}</p>`)
-    .join('');
-}
-
+  formatDescription(text: string): string {
+    return text
+      .replace(/&nbsp;/g, ' ')
+      .replace(/\r\n/g, '\n')
+      .replace(/\n/g, '<br>')
+      .trim();
+  }
 
   goBack() {
     this.location.back();

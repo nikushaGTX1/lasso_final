@@ -7,7 +7,7 @@
   <div class="details-card">
 
     <div class="image-side">
-      <img [src]="product.image" alt="{{product.name}}">
+      <img [src]="product.image" alt="{{ product.name }}">
     </div>
 
     <div class="info-side">
@@ -17,6 +17,7 @@
       <div class="product-description">
         <h3>პროდუქტის შესახებ</h3>
 
+        <!-- EXACT TEXT FORMAT -->
         <div class="desc-text" [innerHTML]="product.description"></div>
       </div>
 
