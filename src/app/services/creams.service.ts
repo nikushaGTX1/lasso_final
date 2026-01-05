@@ -20,27 +20,33 @@ export class CreamsService {
 
   constructor(private http: HttpClient) {}
 
+  // ================= GET ALL =================
   getAll(): Observable<Cream[]> {
     return this.http.get<Cream[]>(`${this.base}/get-creams`);
   }
 
-  // ================= ADD =================
-  addCream(data: FormData): Observable<any> {
-    return this.http.post(`${this.base}/add-product`, data);
+  // ================= ADD (FILE ONLY) =================
+  addCream(data: FormData): Observable<Cream> {
+    return this.http.post<Cream>(
+      `${this.base}/add-product`,
+      data
+    );
   }
 
-  // ================= EDIT =================
-  editCream(cream: Cream): Observable<Cream> {
-    if (!cream.id) throw new Error('Cream ID is required for editing');
+  // ================= EDIT (FILE ONLY) ✅ =================
+  editCreamForm(id: string, data: FormData): Observable<Cream> {
+    if (!id) throw new Error('Cream ID is required for editing');
 
     return this.http.put<Cream>(
-      `${this.base}/edit-product/${cream.id}`,
-      cream
+      `${this.base}/edit-product/${id}`,
+      data
     );
   }
 
   // ================= DELETE =================
   deleteCream(id: string): Observable<any> {
-    return this.http.delete(`${this.base}/${id}`);
+    return this.http.delete(
+      `${this.base}/${id}`
+    );
   }
 }

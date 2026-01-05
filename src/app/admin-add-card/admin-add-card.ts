@@ -59,11 +59,12 @@ export class AdminAddCard implements OnInit, OnDestroy {
       id: [''],
       name: ['', Validators.required],
       description: [''],
-      image: [''],
       price: [0, Validators.required],
       category: ['Creams', Validators.required]
     });
   }
+
+  // ===================== LIFECYCLE =====================
 
   ngOnInit() {
     this.loadCreams();
@@ -76,9 +77,13 @@ export class AdminAddCard implements OnInit, OnDestroy {
     if (this.sub) this.sub.unsubscribe();
   }
 
+  // ===================== FILE HANDLING =====================
+
   onFileSelected(event: any) {
     this.selectedFile = event.target.files?.[0] ?? null;
   }
+
+  // ===================== PRODUCTS =====================
 
   loadCreams() {
     this.sub = this.creamsService.getAll().subscribe(res => {
@@ -98,25 +103,30 @@ export class AdminAddCard implements OnInit, OnDestroy {
 
   submit() {
     const value = this.cardForm.value;
-
-    if (this.editingCard) {
-      this.creamsService.editCream(value).subscribe(() => this.afterSave());
-      return;
-    }
-
     const formData = new FormData();
+
     formData.append('name', value.name ?? '');
     formData.append('description', value.description ?? '');
     formData.append('category', value.category ?? 'Creams');
     formData.append('price', String(value.price ?? 0));
 
-    if (value.image) formData.append('image', value.image);
-    if (this.selectedFile) formData.append('imageFile', this.selectedFile);
+    if (this.selectedFile) {
+      formData.append('imageFile', this.selectedFile);
+    }
 
+    // ===== EDIT =====
+    if (this.editingCard) {
+      this.creamsService
+        .editCreamForm(this.editingCard.id, formData)
+        .subscribe(() => this.afterSave());
+      return;
+    }
+
+    // ===== ADD =====
     this.creamsService.addCream(formData).subscribe({
       next: () => this.afterSave(),
       error: err => {
-        console.error('UPLOAD FAILED', err);
+        console.error(err);
         Swal.fire({ icon: 'error', title: 'Upload Failed!' });
       }
     });
@@ -136,7 +146,15 @@ export class AdminAddCard implements OnInit, OnDestroy {
 
   editCard(card: any) {
     this.editingCard = card;
-    this.cardForm.patchValue(card);
+
+    this.cardForm.patchValue({
+      id: card.id,
+      name: card.name,
+      description: card.description,
+      price: card.price,
+      category: card.category
+    });
+
     this.selectedFile = null;
   }
 
@@ -148,7 +166,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
     }).then(result => {
       if (!result.isConfirmed) return;
 
-      this.creamsService.deleteCream(card.id!).subscribe(() => {
+      this.creamsService.deleteCream(card.id).subscribe(() => {
         this.creams = this.creams.filter(c => c.id !== card.id);
 
         Swal.fire({
@@ -164,10 +182,16 @@ export class AdminAddCard implements OnInit, OnDestroy {
   resetForm() {
     this.editingCard = null;
     this.selectedFile = null;
-    this.cardForm.reset({ category: 'Creams', price: 0 });
+    this.cardForm.reset({
+      name: '',
+      description: '',
+      price: 0,
+      category: 'Creams'
+    });
   }
 
-  // ===== ABOUT TEXTS =====
+  // ===================== ABOUT TEXTS =====================
+
   loadTexts() {
     fetch('https://webapplication1-tg9f.onrender.com/api/Api/about-texts')
       .then(r => r.json())
@@ -184,7 +208,6 @@ export class AdminAddCard implements OnInit, OnDestroy {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.about)
     })
-      .then(r => r.json())
       .then(() => {
         Swal.fire({
           icon: 'success',
@@ -198,7 +221,8 @@ export class AdminAddCard implements OnInit, OnDestroy {
       );
   }
 
-  // ===== BANNER =====
+  // ===================== BANNER =====================
+
   loadBanner() {
     fetch('https://webapplication1-tg9f.onrender.com/api/Api/banner')
       .then(r => r.json())
@@ -233,7 +257,8 @@ export class AdminAddCard implements OnInit, OnDestroy {
       .catch(() => Swal.fire({ icon: 'error', title: 'Upload Failed!' }));
   }
 
-  // ===== GRID =====
+  // ===================== GRID =====================
+
   loadGrids() {
     fetch('https://webapplication1-tg9f.onrender.com/api/Api/grid')
       .then(r => r.json())
@@ -287,5 +312,4 @@ export class AdminAddCard implements OnInit, OnDestroy {
         Swal.fire({ icon: 'error', title: 'Delete Failed!' })
       );
   }
-
 }
