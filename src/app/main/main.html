@@ -1,38 +1,72 @@
+<!-- ================= BANNER ================= -->
 <div class="banner-container">
 
-  <img *ngIf="bannerUrl" [src]="bannerUrl" alt="" class="banner1">
+  <img
+    *ngIf="bannerUrl; else defaultBanner"
+    [src]="bannerUrl"
+    alt="Main banner"
+    class="banner1"
+    loading="eager"
+    fetchpriority="high"
+  />
 
-  <img *ngIf="!bannerUrl" src="assets/default-banner.jpg" alt="" class="banner1">
+  <ng-template #defaultBanner>
+    <img
+      src="assets/default-banner.jpg"
+      alt="Main banner"
+      class="banner1"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </ng-template>
 
-  <button class="btn" routerLink="products">
+  <button class="btn" routerLink="/products">
     {{ lang.t('bannerBtn') }}
   </button>
 
 </div>
 
-
+<!-- ================= PRODUCT GRID ================= -->
 <div class="product-grid">
 
   <!-- BIG LEFT IMAGE -->
   <div class="item i8">
-    <img [src]="grid1 || 'assets/default-grid1.jpg'">
+    <img
+      [src]="grid1 || 'assets/placeholder.jpg'"
+      alt="Featured product"
+      loading="lazy"
+    />
   </div>
 
   <!-- OTHER 6 IMAGES -->
-  <div class="item"><img [src]="grid2 || 'assets/default-grid2.jpg'"></div>
-  <div class="item"><img [src]="grid3 || 'assets/default-grid3.jpg'"></div>
-  <div class="item"><img [src]="grid4 || 'assets/default-grid4.jpg'"></div>
-  <div class="item"><img [src]="grid5 || 'assets/default-grid5.jpg'"></div>
-  <div class="item"><img [src]="grid6 || 'assets/default-grid6.jpg'"></div>
-  <div class="item"><img [src]="grid7 || 'assets/default-grid7.jpg'"></div>
+  <div class="item">
+    <img [src]="grid2 || 'assets/placeholder.jpg'" alt="Product image" loading="lazy" />
+  </div>
+
+  <div class="item">
+    <img [src]="grid3 || 'assets/placeholder.jpg'" alt="Product image" loading="lazy" />
+  </div>
+
+  <div class="item">
+    <img [src]="grid4 || 'assets/placeholder.jpg'" alt="Product image" loading="lazy" />
+  </div>
+
+  <div class="item">
+    <img [src]="grid5 || 'assets/placeholder.jpg'" alt="Product image" loading="lazy" />
+  </div>
+
+  <div class="item">
+    <img [src]="grid6 || 'assets/placeholder.jpg'" alt="Product image" loading="lazy" />
+  </div>
+
+  <div class="item">
+    <img [src]="grid7 || 'assets/placeholder.jpg'" alt="Product image" loading="lazy" />
+  </div>
 
 </div>
 
-
-
-
+<!-- ================= ABOUT SECTION ================= -->
 <section class="about-section">
-
 
   <h2 class="about-title">
     {{ lang.t('aboutTitle') }}
@@ -42,7 +76,7 @@
     {{ lang.t('aboutText') }}
   </p>
 
-  <button class="about-btn" [routerLink]="['/products']">
+  <button class="about-btn" routerLink="/products">
     {{ lang.t('aboutBtn') }}
   </button>
 
