@@ -1,9 +1,26 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreamsService } from '../services/creams.service';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import { CreamsService } from '../services/creams.service';
 import { LangService } from '../services/lang.service';
+
+interface GridMap {
+  [key: string]: string;
+}
+
+interface AboutTexts {
+  About_HeroTitle: string;
+  About_HeroText: string;
+  About_Who: string;
+  About_WhoText: string;
+  About_Philosophy: string;
+  About_PhilosophyText: string;
+  About_Mission: string;
+  About_MissionText: string;
+  About_Trust: string;
+  About_ExploreBtn: string;
+}
 
 @Component({
   selector: 'app-admin-add-card',
@@ -24,7 +41,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
 
   currentBanner = '';
 
-  grids: any = {
+  grids: GridMap = {
     grid1: '',
     grid2: '',
     grid3: '',
@@ -34,7 +51,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
     grid7: ''
   };
 
-  about: any = {
+  about: AboutTexts = {
     About_HeroTitle: '',
     About_HeroText: '',
     About_Who: '',
@@ -59,56 +76,55 @@ export class AdminAddCard implements OnInit, OnDestroy {
       id: [''],
       name: ['', Validators.required],
       description: [''],
-      price: [0, Validators.required],
+      price: [0, [Validators.required, Validators.min(0)]],
       category: ['Creams', Validators.required]
     });
   }
 
   // ===================== LIFECYCLE =====================
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadCreams();
     this.loadBanner();
     this.loadGrids();
     this.loadTexts();
   }
 
-  ngOnDestroy() {
-    if (this.sub) this.sub.unsubscribe();
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 
   // ===================== FILE HANDLING =====================
-
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files?.[0] ?? null;
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.selectedFile = input.files?.[0] ?? null;
   }
 
   // ===================== PRODUCTS =====================
-
-  loadCreams() {
+  loadCreams(): void {
     this.sub = this.creamsService.getAll().subscribe(res => {
       this.creams = res || [];
       this.cdr.detectChanges();
     });
   }
 
-  get pagedCreams() {
+  get pagedCreams(): any[] {
     const start = (this.page - 1) * this.pageSize;
     return this.creams.slice(start, start + this.pageSize);
   }
 
-  get totalPages() {
+  get totalPages(): number {
     return Math.ceil(this.creams.length / this.pageSize);
   }
 
-  submit() {
+  submit(): void {
+    if (this.cardForm.invalid) return;
+
     const value = this.cardForm.value;
     const formData = new FormData();
-
-    formData.append('name', value.name ?? '');
-    formData.append('description', value.description ?? '');
-    formData.append('category', value.category ?? 'Creams');
-    formData.append('price', String(value.price ?? 0));
+    formData.append('name', value.name);
+    formData.append('description', value.description);
+    formData.append('category', value.category);
+    formData.append('price', String(value.price));
 
     if (this.selectedFile) {
       formData.append('imageFile', this.selectedFile);
@@ -116,8 +132,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
 
     // ===== EDIT =====
     if (this.editingCard) {
-      this.creamsService
-        .editCreamForm(this.editingCard.id, formData)
+      this.creamsService.editCreamForm(this.editingCard.id, formData)
         .subscribe(() => this.afterSave());
       return;
     }
@@ -132,21 +147,19 @@ export class AdminAddCard implements OnInit, OnDestroy {
     });
   }
 
-  afterSave() {
+  afterSave(): void {
     Swal.fire({
       icon: 'success',
       title: this.lang.t('adminSaved'),
       timer: 1200,
       showConfirmButton: false
     });
-
     this.resetForm();
     this.loadCreams();
   }
 
-  editCard(card: any) {
+  editCard(card: any): void {
     this.editingCard = card;
-
     this.cardForm.patchValue({
       id: card.id,
       name: card.name,
@@ -154,11 +167,10 @@ export class AdminAddCard implements OnInit, OnDestroy {
       price: card.price,
       category: card.category
     });
-
     this.selectedFile = null;
   }
 
-  deleteCard(card: any) {
+  deleteCard(card: any): void {
     Swal.fire({
       title: `${this.lang.t('adminDelete')} "${card.name}"?`,
       icon: 'warning',
@@ -168,7 +180,6 @@ export class AdminAddCard implements OnInit, OnDestroy {
 
       this.creamsService.deleteCream(card.id).subscribe(() => {
         this.creams = this.creams.filter(c => c.id !== card.id);
-
         Swal.fire({
           icon: 'success',
           title: this.lang.t('adminDeleted'),
@@ -179,7 +190,7 @@ export class AdminAddCard implements OnInit, OnDestroy {
     });
   }
 
-  resetForm() {
+  resetForm(): void {
     this.editingCard = null;
     this.selectedFile = null;
     this.cardForm.reset({
@@ -191,125 +202,101 @@ export class AdminAddCard implements OnInit, OnDestroy {
   }
 
   // ===================== ABOUT TEXTS =====================
-
-  loadTexts() {
-    fetch('https://webapplication1-tg9f.onrender.com/api/Api/about-texts')
-      .then(r => r.json())
-      .then(r => {
-        this.about = { ...this.about, ...(r || {}) };
-        this.cdr.detectChanges();
-      })
-      .catch(err => console.error('Failed to load about texts', err));
+  async loadTexts(): Promise<void> {
+    try {
+      const res = await fetch('https://webapplication1-tg9f.onrender.com/api/Api/about-texts');
+      const data = await res.json();
+      this.about = { ...this.about, ...(data || {}) };
+      this.cdr.detectChanges();
+    } catch (err) {
+      console.error('Failed to load about texts', err);
+    }
   }
 
-  saveTexts() {
-    fetch('https://webapplication1-tg9f.onrender.com/api/Api/about-texts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(this.about)
-    })
-      .then(() => {
-        Swal.fire({
-          icon: 'success',
-          title: this.lang.t('adminAboutSaved'),
-          timer: 1200,
-          showConfirmButton: false
-        });
-      })
-      .catch(() =>
-        Swal.fire({ icon: 'error', title: 'Failed to save texts' })
-      );
+  async saveTexts(): Promise<void> {
+    try {
+      await fetch('https://webapplication1-tg9f.onrender.com/api/Api/about-texts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.about)
+      });
+      Swal.fire({ icon: 'success', title: this.lang.t('adminAboutSaved'), timer: 1200, showConfirmButton: false });
+    } catch {
+      Swal.fire({ icon: 'error', title: 'Failed to save texts' });
+    }
   }
 
   // ===================== BANNER =====================
-
-  loadBanner() {
-    fetch('https://webapplication1-tg9f.onrender.com/api/Api/banner')
-      .then(r => r.json())
-      .then(r => {
-        this.currentBanner = r.bannerUrl || '';
-        this.cdr.detectChanges();
-      });
+  async loadBanner(): Promise<void> {
+    try {
+      const res = await fetch('https://webapplication1-tg9f.onrender.com/api/Api/banner');
+      const data = await res.json();
+      this.currentBanner = data.bannerUrl ?? '';
+      this.cdr.detectChanges();
+    } catch (err) {
+      console.error('Failed to load banner', err);
+    }
   }
 
-  uploadBanner(file: File | undefined) {
+  async uploadBanner(file?: File): Promise<void> {
     if (!file) return;
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
 
-    const formData = new FormData();
-    formData.append('file', file);
-
-    fetch('https://webapplication1-tg9f.onrender.com/api/Api/upload-banner', {
-      method: 'POST',
-      body: formData
-    })
-      .then(r => r.json())
-      .then(r => {
-        this.currentBanner = r.bannerUrl;
-        this.cdr.detectChanges();
-
-        Swal.fire({
-          icon: 'success',
-          title: this.lang.t('adminBannerUpdated'),
-          timer: 1200,
-          showConfirmButton: false
-        });
-      })
-      .catch(() => Swal.fire({ icon: 'error', title: 'Upload Failed!' }));
+      const res = await fetch('https://webapplication1-tg9f.onrender.com/api/Api/upload-banner', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      this.currentBanner = data.bannerUrl ?? '';
+      this.cdr.detectChanges();
+      Swal.fire({ icon: 'success', title: this.lang.t('adminBannerUpdated'), timer: 1200, showConfirmButton: false });
+    } catch {
+      Swal.fire({ icon: 'error', title: 'Upload Failed!' });
+    }
   }
 
   // ===================== GRID =====================
-
-  loadGrids() {
-    fetch('https://webapplication1-tg9f.onrender.com/api/Api/grid')
-      .then(r => r.json())
-      .then(r => {
-        this.grids = r || {};
-        this.cdr.detectChanges();
-      });
+  async loadGrids(): Promise<void> {
+    try {
+      const res = await fetch('https://webapplication1-tg9f.onrender.com/api/Api/grid');
+      const data = await res.json();
+      this.grids = data || {};
+      this.cdr.detectChanges();
+    } catch (err) {
+      console.error('Failed to load grids', err);
+    }
   }
 
-  uploadGrid(slot: number, file: File | undefined) {
+  async uploadGrid(slot: number, file?: File): Promise<void> {
     if (!file) return;
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
 
-    const formData = new FormData();
-    formData.append('file', file);
-
-    fetch(`https://webapplication1-tg9f.onrender.com/api/Api/upload-grid/${slot}`, {
-      method: 'POST',
-      body: formData
-    })
-      .then(r => r.json())
-      .then(r => {
-        this.grids[`grid${slot}`] = r.url;
-        this.cdr.detectChanges();
-
-        Swal.fire({
-          icon: 'success',
-          title: `${this.lang.t('adminGridUpdated')} ${slot}!`,
-          timer: 1000,
-          showConfirmButton: false
-        });
-      })
-      .catch(() => Swal.fire({ icon: 'error', title: 'Upload Failed!' }));
+      const res = await fetch(`https://webapplication1-tg9f.onrender.com/api/Api/upload-grid/${slot}`, {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      this.grids[`grid${slot}`] = data.url ?? '';
+      this.cdr.detectChanges();
+      Swal.fire({ icon: 'success', title: `${this.lang.t('adminGridUpdated')} ${slot}!`, timer: 1000, showConfirmButton: false });
+    } catch {
+      Swal.fire({ icon: 'error', title: 'Upload Failed!' });
+    }
   }
 
-  deleteGrid(slot: number) {
-    fetch(`https://webapplication1-tg9f.onrender.com/api/Api/grid/${slot}`, {
-      method: 'DELETE'
-    })
-      .then(() => {
-        this.grids[`grid${slot}`] = '';
-        this.cdr.detectChanges();
-
-        Swal.fire({
-          icon: 'success',
-          title: `Grid ${slot} deleted`,
-          timer: 900,
-          showConfirmButton: false
-        });
-      })
-      .catch(() =>
-        Swal.fire({ icon: 'error', title: 'Delete Failed!' })
-      );
+  async deleteGrid(slot: number): Promise<void> {
+    try {
+      await fetch(`https://webapplication1-tg9f.onrender.com/api/Api/grid/${slot}`, { method: 'DELETE' });
+      this.grids[`grid${slot}`] = '';
+      this.cdr.detectChanges();
+      Swal.fire({ icon: 'success', title: `Grid ${slot} deleted`, timer: 900, showConfirmButton: false });
+    } catch {
+      Swal.fire({ icon: 'error', title: 'Delete Failed!' });
+    }
   }
+
 }

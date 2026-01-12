@@ -1,26 +1,29 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 import { LangService } from '../services/lang.service';
 
 @Component({
   selector: 'app-main',
-  standalone: false,
   templateUrl: './main.html',
   styleUrls: ['./main.css'],
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Main implements OnInit {
 
-  main: any;
+  // ===== Hero / Grids =====
+  bannerUrl = '';
+  grid1 = '';
+  grid2 = '';
+  grid3 = '';
+  grid4 = '';
+  grid5 = '';
+  grid6 = '';
+  grid7 = '';
 
-  bannerUrl: string = '';
-
-  grid1: string = '';
-  grid2: string = '';
-  grid3: string = '';
-  grid4: string = '';
-  grid5: string = '';
-  grid6: string = '';
-  grid7: string = '';
+  // ===== Products =====
+  products: any[] = [];
 
   constructor(
     private http: HttpClient,
@@ -28,74 +31,54 @@ export class Main implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.loadAllData();
+  }
 
-    // ======================
-    // LOAD BANNER IMAGE
-    // ======================
-    this.http.get<any>('https://webapplication1-tg9f.onrender.com/api/Api/banner')
-      .subscribe({
-        next: res => {
-          this.bannerUrl = res?.bannerUrl || '';
-          console.log("✅ Loaded Banner:", this.bannerUrl);
-          this.cdr.detectChanges();
-        },
-        error: err => console.error("❌ Banner Load Failed:", err)
-      });
+  // ===============================
+  // Load banner, grids, products in parallel
+  // ===============================
+  private loadAllData(): void {
+    forkJoin({
+      banner: this.http.get<any>('https://webapplication1-tg9f.onrender.com/api/Api/banner'),
+      grid: this.http.get<any>('https://webapplication1-tg9f.onrender.com/api/Api/grid'),
+      products: this.http.get<any>('https://webapplication1-tg9f.onrender.com/api/Api/get-vitamins')
+    }).subscribe({
+      next: ({ banner, grid, products }) => {
 
+        // ===== Banner =====
+        this.bannerUrl = banner?.bannerUrl ?? '';
+        if (this.bannerUrl) this.preloadImage(this.bannerUrl);
 
-    // ======================
-    // LOAD GRID IMAGES (1–7)
-    // ======================
-    this.http.get<any>('https://webapplication1-tg9f.onrender.com/api/Api/grid')
-      .subscribe({
-        next: res => {
-          console.log("🧩 GRID DATA:", res);
+        // ===== Grid Images =====
+        this.grid1 = grid?.grid1 ?? ''; if (this.grid1) this.preloadImage(this.grid1);
+        this.grid2 = grid?.grid2 ?? ''; if (this.grid2) this.preloadImage(this.grid2);
+        this.grid3 = grid?.grid3 ?? ''; if (this.grid3) this.preloadImage(this.grid3);
+        this.grid4 = grid?.grid4 ?? ''; if (this.grid4) this.preloadImage(this.grid4);
+        this.grid5 = grid?.grid5 ?? ''; if (this.grid5) this.preloadImage(this.grid5);
+        this.grid6 = grid?.grid6 ?? ''; if (this.grid6) this.preloadImage(this.grid6);
+        this.grid7 = grid?.grid7 ?? ''; if (this.grid7) this.preloadImage(this.grid7);
 
-          this.grid1 = res?.grid1 || '';
-          this.grid2 = res?.grid2 || '';
-          this.grid3 = res?.grid3 || '';
-          this.grid4 = res?.grid4 || '';
-          this.grid5 = res?.grid5 || '';
-          this.grid6 = res?.grid6 || '';
-          this.grid7 = res?.grid7 || '';
+        // ===== Products =====
+        const items: any[] = Array.isArray(products) ? products
+          : Array.isArray(products?.data) ? products.data
+          : Array.isArray(products?.vitamins) ? products.vitamins
+          : [];
+        this.products = items;
 
-          this.cdr.detectChanges();
-        },
-        error: err => console.error("❌ Grid Load Failed:", err)
-      });
+        // ===== Detect changes once =====
+        this.cdr.detectChanges();
+      },
+      error: err => console.error('❌ Data load failed', err)
+    });
+  }
 
-
-    // ======================
-    // LOAD MAIN PAGE DATA
-    // ======================
-    this.http.get(
-      'https://webapplication1-tg9f.onrender.com/api/Api/get-vitamins'
-    )
-      .subscribe({
-        next: (res: any) => {
-
-          console.log("🔥 RAW RESPONSE FROM API:", res);
-
-          let items: any[] = [];
-
-          if (Array.isArray(res)) items = res;
-          else if (res?.data && Array.isArray(res.data)) items = res.data;
-          else if (res?.vitamins && Array.isArray(res.vitamins)) items = res.vitamins;
-          else {
-            console.error("❌ Unknown response format");
-            return;
-          }
-
-          this.main = items.find(
-            x => (x.category || x.Category) === 'main'
-          );
-
-          console.log("✅ MAIN PAGE DATA:", this.main);
-        },
-        error: err => console.error("❌ API ERROR:", err)
-      });
-
+  // ===============================
+  // Preload images for faster rendering
+  // ===============================
+  private preloadImage(url: string): void {
+    const img = new Image();
+    img.src = url;
   }
 
 }
